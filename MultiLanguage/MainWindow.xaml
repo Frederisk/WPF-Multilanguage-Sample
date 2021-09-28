@@ -4,9 +4,35 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MultiLanguage"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}" 
+        d:Height="450" d:Width="800" mc:Ignorable="d"
+        Title="MainWindow" SizeToContent="WidthAndHeight" MinHeight="450" MinWidth="800">
+  <Grid>
+    <Grid.Resources>
+      <!--StackPanel Default Style-->
+      <Style TargetType="StackPanel">
+        <Setter Property="Margin" Value="10"/>
+      </Style>
+    </Grid.Resources>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+    <!--Left-->
+    <StackPanel Grid.Column="0">
+      <!--Bind Application.Resources.ResourceDictionary.MergedDictionaries in App.xaml.-->
+      <TextBlock Text="{DynamicResource ResourceKey=Display_Hello_World}" FontSize="30"/>
+    </StackPanel>
+    <!--Right-->
+    <StackPanel Grid.Column="1">
+      <TextBlock Text="{DynamicResource ResourceKey=Setting_Choose_Your_Language}"/>
+      <!--Bind ViewModel source as ComboBoxItem (Source) and SelectedItem (Source).-->
+      <ComboBox ItemsSource="{Binding Path=LanguageCollection}" 
+                DisplayMemberPath="Content"
+                SelectedValue="{Binding Path=SelectedLanguage}"
+                SelectedValuePath="Tag"/>
+      <!--Bind Command which will call method to apply language change.-->
+      <Button Content="{DynamicResource ResourceKey=Setting_Apply}" Command="{Binding Path=ApplyLanguage}"/>
+    </StackPanel>
+  </Grid>
 </Window>
