@@ -1,26 +1,57 @@
-﻿using System;
+﻿//  ---------------------------------------------------------------------------------
+//  Copyright (c) Microsoft Corporation.  All rights reserved.
+//
+//  The MIT License (MIT)
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
+//  ---------------------------------------------------------------------------------
+
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace MultiLanguage.Common {
+
+    /// <summary>
+    /// Implementation of <see cref="INotifyPropertyChanged"/> to simplify models.
     /// </summary>
     /// <remarks>
-    /// https://github.com/Microsoft/Windows-appsample-networkhelper
+    /// https://github.com/microsoft/Windows-appsample-networkhelper/blob/master/DemoApps/QuizGame/Common/BindableBase.cs
     /// </remarks>
     public abstract class BindableBase : INotifyPropertyChanged {
         /// <summary>
-        /// 屬性更改通知的多播事件。
+        /// Multicast event for property change notifications.
         /// </summary>
         public event PropertyChangedEventHandler? PropertyChanged;
+
         /// <summary>
-        /// 檢查屬性是否已與所需值匹配。 設置屬性, 並在必要時通知攔截器。
+        /// Checks if a property already matches a desired value.  Sets the property and
+        /// notifies listeners only when necessary.
         /// </summary>
-        /// <typeparam name="T">屬性的類型。</typeparam>
-        /// <param name="storage">對具有 getter 和 setter 的屬性的引用。</param>
-        /// <param name="value">屬性所需的值。</param>
-        /// <param name="propertyName">用於通知攔截器的屬性的名稱。
-        /// 此值是可選的, 可以在支援 CallerMemberName 的編譯器調用時自動提供。</param>
-        /// <returns>如果值更改為 True, 則如果現有值與所需值匹配, 則為 false。</returns>
+        /// <typeparam name="T">Type of the property.</typeparam>
+        /// <param name="storage">Reference to a property with both getter and setter.</param>
+        /// <param name="value">Desired value for the property.</param>
+        /// <param name="propertyName">Name of the property used to notify listeners.  This
+        /// value is optional and can be provided automatically when invoked from compilers that
+        /// support CallerMemberName.</param>
+        /// <returns>True if the value was changed, false if the existing value matched the
+        /// desired value.</returns>
         protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] String? propertyName = null) {
             if (Object.Equals(storage, value)) {
                 return false;
@@ -29,12 +60,19 @@ namespace MultiLanguage.Common {
             this.OnPropertyChanged(propertyName);
             return true;
         }
+
         /// <summary>
-        /// 通知攔截器屬性值已更改。
+        /// Checks if a property already matches a desired value.  Sets the property and
+        /// notifies listeners only when necessary.
         /// </summary>
-        /// <param name="propertyName">用於通知攔截器的屬性的名稱。
-        /// 此值是可選的, 可以在支援 <see cref="CallerMemberNameAttribute"/>
-        /// 的編譯器中調用時自動提供。</param>
+        /// <typeparam name="T">Type of the property.</typeparam>
+        /// <param name="storage">Reference to a property with both getter and setter.</param>
+        /// <param name="value">Desired value for the property.</param>
+        /// <param name="propertyName">Name of the property used to notify listeners.  This
+        /// value is optional and can be provided automatically when invoked from compilers that
+        /// support CallerMemberName.</param>
+        /// <returns>True if the value was changed, false if the existing value matched the
+        /// desired value.</returns>
         protected virtual void OnPropertyChanged([CallerMemberName] String? propertyName = null) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
