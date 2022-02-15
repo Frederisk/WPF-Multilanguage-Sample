@@ -4,11 +4,13 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace MultiLanguage {
+
     public class MainWindowViewModel : BindableBase {
+        private const String ApplicationDefaultLanguage = "en-US";
+
         public MainWindowViewModel() {
             // Load language optional item;
             this._languageCollection = new() {
@@ -19,18 +21,19 @@ namespace MultiLanguage {
             // Initialize with the system language,
             // if it fails, use the default language.
             var cultureName = System.Globalization.CultureInfo.CurrentCulture.Name;
-            this.SelectedLanguage = LoadLanguageResourceDictionary(cultureName) is null ? "en-US" : cultureName;
+            // this.SelectedLanguage = LoadLanguageResourceDictionary(cultureName) is null ? "en-US" : cultureName;
+            if (this._languageCollection.Any(item=> item.Tag == cultureName)) {
+                this.SelectedLanguage = cultureName;
+            }
+            else {
+                this.SelectedLanguage = ApplicationDefaultLanguage;
+            }
             this.UpdateApplicationLanguage();
         }
 
-        #region Fields
-
-        public ObservableCollection<LanguageTypeInfo> _languageCollection;
-        public String? _selectedLanguage;
-
-        #endregion Fields
-
         #region BindingSource
+
+        private ObservableCollection<LanguageTypeInfo> _languageCollection;
 
         /// <summary>
         /// The Collection of optional language.
@@ -40,28 +43,41 @@ namespace MultiLanguage {
             set => this._languageCollection = value;
         }
 
+        private String? _selectedLanguage;
+
         /// <summary>
         /// The Language which was selected.
         /// </summary>
         public String? SelectedLanguage {
             get => this._selectedLanguage;
-            set => this.SetProperty(ref this._selectedLanguage, value);
-
+            set {
+                if (this.SetProperty(ref this._selectedLanguage, value)) {
+                    this.ApplyLanguage.RaiseCanExecuteChanged();
+                }
+            }
         }
+
+        private DelegateCommand? _applyLanguage;
 
         /// <summary>
         /// Apply language change.
+        /// If the activity language is the same as
+        /// <see cref="MainWindowViewModel.SelectedLanguage"/>, Application
+        /// is not allowed.
         /// </summary>
-        public DelegateCommand ApplyLanguage => new(_ => this.UpdateApplicationLanguage());
-        // summary: If the activity language is the same as
-        // <see cref="MainWindowViewModel.SelectedLanguage"/>, Application
-        // is not allowed.
-        //
-        //_ => {
-        //var dictionarySourceString = Application.Current.Resources.MergedDictionaries.Last();
-        //var activityLanguage = Regex.Match(dictionarySourceString, @"(?<=\\)[^\\]*?\.xaml$");
-        //return SelectedLanguage != activityLanguage.Value;
-        //}
+        /// <remarks>
+        /// https://stackoverflow.com/questions/33486859/retrieve-a-value-from-resourcedictionary-in-code-behind
+        /// </remarks>
+        public DelegateCommand ApplyLanguage => _applyLanguage ?? (_applyLanguage = new(() => {
+            this.UpdateApplicationLanguage();
+            this.ApplyLanguage.RaiseCanExecuteChanged();
+        }, () => {
+            var dictionaryResources = Application.Current.Resources;
+            if (dictionaryResources["Language_Code"] is String lang) {
+                return SelectedLanguage != lang;
+            }
+            return false;
+        }));
 
         #endregion BindingSource
 
@@ -100,8 +116,8 @@ namespace MultiLanguage {
         /// if it does not exist, return default language one.</returns>
         private static ResourceDictionary? LoadLanguageResourceDictionary(String? lang = null) {
             try {
-                // if is null or blank string, set lang as default language (English (US)).
-                lang = String.IsNullOrWhiteSpace(lang) ? "en-US" : lang;
+                // if is null or blank string, set lang as default.
+                lang = String.IsNullOrWhiteSpace(lang) ? ApplicationDefaultLanguage : lang;
                 var langUri = new Uri($@"\Resource\Language\{lang}.xaml", UriKind.Relative);
                 return Application.LoadComponent(langUri) as ResourceDictionary;
             }

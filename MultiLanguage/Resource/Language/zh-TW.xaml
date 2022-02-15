@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
-  <sys:String x:Key="Setting_Apply">應用</sys:String>
+  <sys:String x:Key="Language_Code">zh-TW</sys:String>
+  <sys:String x:Key="Setting_Apply">套用</sys:String>
   <sys:String x:Key="Setting_Choose_Your_Language">選擇你的語言：</sys:String>
   <sys:String x:Key="Display_Hello_World">你好世界！!</sys:String>
 </ResourceDictionary>
