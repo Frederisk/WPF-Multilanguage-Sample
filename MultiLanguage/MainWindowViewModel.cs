@@ -22,10 +22,9 @@ namespace MultiLanguage {
             // if it fails, use the default language.
             var cultureName = System.Globalization.CultureInfo.CurrentCulture.Name;
             // this.SelectedLanguage = LoadLanguageResourceDictionary(cultureName) is null ? "en-US" : cultureName;
-            if (this._languageCollection.Any(item=> item.Tag == cultureName)) {
+            if (this._languageCollection.Any(item => item.Tag == cultureName)) {
                 this.SelectedLanguage = cultureName;
-            }
-            else {
+            } else {
                 this.SelectedLanguage = ApplicationDefaultLanguage;
             }
             this.UpdateApplicationLanguage();
@@ -66,7 +65,7 @@ namespace MultiLanguage {
         /// is not allowed.
         /// </summary>
         /// <remarks>
-        /// https://stackoverflow.com/questions/33486859/retrieve-a-value-from-resourcedictionary-in-code-behind
+        /// https://stackoverflow.com/questions/68572536/icommand-canexecutechanged-is-always-null
         /// </remarks>
         public DelegateCommand ApplyLanguage => _applyLanguage ?? (_applyLanguage = new(() => {
             this.UpdateApplicationLanguage();
