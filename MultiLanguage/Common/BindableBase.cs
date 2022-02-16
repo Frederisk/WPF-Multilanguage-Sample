@@ -35,6 +35,7 @@ namespace MultiLanguage.Common {
     /// https://github.com/microsoft/Windows-appsample-networkhelper/blob/master/DemoApps/QuizGame/Common/BindableBase.cs
     /// </remarks>
     public abstract class BindableBase : INotifyPropertyChanged {
+
         /// <summary>
         /// Multicast event for property change notifications.
         /// </summary>
