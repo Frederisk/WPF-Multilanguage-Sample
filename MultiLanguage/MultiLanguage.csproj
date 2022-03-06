@@ -8,6 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resource\Assets\Images\Main_Image.en-US.png" />
+    <None Remove="Resource\Assets\Images\Main_Image.zh-CN.png" />
+    <None Remove="Resource\Assets\Images\Main_Image.zh-TW.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resource\Assets\Images\Main_Image.zh-CN.png" />
+    <Resource Include="Resource\Assets\Images\Main_Image.zh-TW.png" />
+    <Resource Include="Resource\Assets\Images\Main_Image.en-US.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Update="Resource\Language\zh-CN.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
