@@ -1,8 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
-  <sys:String x:Key="Language_Code">en-US</sys:String>
-  <sys:String x:Key="Setting_Apply">Apply</sys:String>
-  <sys:String x:Key="Setting_Choose_Your_Language">Choose Your Laguage:</sys:String>
-  <sys:String x:Key="Display_Hello_World">Hello World!</sys:String>
+                    xmlns:mscorlib="clr-namespace:System;assembly=mscorlib"
+                    xmlns:system="clr-namespace:System;assembly=System.Runtime">
+  <system:String x:Key="Language_Code">en-US</system:String>
+  <system:String x:Key="Setting_Apply">Apply</system:String>
+  <system:String x:Key="Setting_Choose_Your_Language">Choose Your Language:</system:String>
+  <system:String x:Key="Display_Hello_World">Hello World!</system:String>
+  <ImageSource x:Key="Main_Image">pack://application:,,,/MultiLanguage;component/Resource/Assets/Images/Main_Image.en-US.png</ImageSource>
 </ResourceDictionary>
