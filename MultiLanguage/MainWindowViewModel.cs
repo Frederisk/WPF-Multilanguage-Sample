@@ -109,7 +109,7 @@ namespace MultiLanguage {
         /// <summary>
         /// Get the <see cref="ResourceDictionary"/> of language.
         /// </summary>
-        /// <param name="lang">Laguage Name, pass <see langword="null"/> to get the default language.</param>
+        /// <param name="lang">Language Name, pass <see langword="null"/> to get the default language.</param>
         /// <returns>a <see cref="ResourceDictionary"/> which path is
         /// <c>$"/Resource/Language/{<paramref name="lang"/>}.xaml"</c>.
         /// if it does not exist, return default language one.</returns>
@@ -127,7 +127,7 @@ namespace MultiLanguage {
         }
 
         /// <summary>
-        /// Updata the Application Language to <see cref="MainWindowViewModel.SelectedLanguage"/>.
+        /// Update the Application Language to <see cref="MainWindowViewModel.SelectedLanguage"/>.
         /// </summary>
         private void UpdateApplicationLanguage() {
             ResourceDictionary? langResource = LoadLanguageResourceDictionary(this.SelectedLanguage);
@@ -136,7 +136,11 @@ namespace MultiLanguage {
                 langResource = LoadLanguageResourceDictionary();
             }
             // If you have used other languages, clear it first.
+            // Since the dictionary are cleared, the output of debugging will warn "Resource not found",
+            // but it is not a problem in most case.
+            System.Diagnostics.Debug.WriteLine("Clearing MergedDictionaries");
             Application.Current.Resources.MergedDictionaries.Clear();
+            System.Diagnostics.Debug.WriteLine("Cleared");
             // Add new language.
             Application.Current.Resources.MergedDictionaries.Add(langResource);
         }

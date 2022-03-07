@@ -22,8 +22,7 @@
     <StackPanel Grid.Column="0">
       <!--Bind Application.Resources.ResourceDictionary.MergedDictionaries in App.xaml.-->
       <TextBlock Text="{DynamicResource ResourceKey=Display_Hello_World}" FontSize="30" />
-      <Image Source="{DynamicResource ResourceKey=Main_Image}" MaxWidth="256">
-      </Image>
+      <Image Source="{DynamicResource ResourceKey=Main_Image}" MaxWidth="256" />
     </StackPanel>
     <!--Right-->
     <StackPanel Grid.Column="1">
