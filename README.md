@@ -15,7 +15,7 @@ This example uses MVVM, so it's more suitable for the current mainstream develop
 
 ## Structure of the Project
 
-The `MultiLanguage` folder in the root of the repository is the most important part of the project. It contains the following folders and files:
+`MultiLanguage` folder in the root of the repository is the most important part of the project. It contains the following folders and files:
 
 - `Common` Folder: contains the common classes and interfaces.
 - `Resources` Folder: contains the resources, especially the multilingual resources.
@@ -62,8 +62,8 @@ Next is the left part, which has a `TextBlock` and `Image` to show the changes t
   <!--Left-->
   <StackPanel Grid.Column="0">
     <!--Bind Application.Resources.ResourceDictionary.MergedDictionaries in App.xaml.-->
-    <TextBlock Text="{DynamicResource ResourceKey=Display_Hello_World}" FontSize="30" />
-    <Image Source="{DynamicResource ResourceKey=Main_Image}" MaxWidth="256" />
+    <TextBlock ... />
+    <Image ... />
   </StackPanel>
   ...
 </Grid>
@@ -86,9 +86,33 @@ We assign the default `Style` to the `StackPanel` to separate two panel with `Ma
 Finally, there is a trick about multilingual programs. We can set the attribute `SizeToContent` to `"WidthAndHeight"` in Window to make the default window size specified by the content instead of a fixed value, which can avoid that the content cannot be fully displayed because the window is too small for some languages. This attribute can also be used with `MinHeight` and `MinWidth`:
 
 ```xml
-<Window ...
-    SizeToContent="WidthAndHeight"
-    MinHeight="450" MinWidth="800">
-    ...
+<Window ... SizeToContent="WidthAndHeight" MinHeight="450" MinWidth="800">
+  ...
 </Window>
+```
+
+## How will our language assets be perceived by the UI
+
+In fact, we have just seen this way of storing Source. In `MainWindow.xaml`, We use `Grid.Resources` to store the default style, those resources are shared and applied to all child objects of the `Grid`. To make multilingual resources accessible to the whole application, we choose to store them in the `Application.Resources` as `ResourceDictionary` in `App.xaml` and `ResourceDictionary.MergedDictionaries` can help us combine multiple dictionaries for processing:
+
+```xml
+<Application ...>
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <!--Language source will be added here.-->
+        <!--<d:ResourceDictionary Source="\Resource\Language\en-US.xaml" />-->
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
+</Application>
+```
+
+As a result, we can use `DynamicResource` in `MainWindow.xaml` to obtain resources. `StaticResource` is also supported, but it will not be updated after initialization. If you expect your application should change language after restart, you should use `StaticResource` instead of `DynamicResource`. The syntax of both is similar: `{DynamicResource ResourceKey=KEY}`, `KEY` is the key of the resource you need in the `ResourceDictionary`. Example in `MainWindow.xaml`:
+
+```xml
+...
+<TextBlock Text="{DynamicResource ResourceKey=Display_Hello_World}" FontSize="30" />
+<Image Source="{DynamicResource ResourceKey=Main_Image}" MaxWidth="256" />
+...
 ```

@@ -9,9 +9,8 @@
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <!--Language source will be added here.-->
-        <!--<d:ResourceDictionary Source="\Resource\Language\zh-TW.xaml" />-->
+        <!--<d:ResourceDictionary Source="\Resource\Language\en-US.xaml" />-->
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>
 </Application>
-  
