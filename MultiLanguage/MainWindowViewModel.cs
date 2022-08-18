@@ -13,7 +13,7 @@ namespace MultiLanguage {
 
         public MainWindowViewModel() {
             // Load language optional item;
-            this._languageCollection = new() {
+            this._languageCollection = new ObservableCollection<LanguageTypeInfo> {
                 new("en-US", "English (US)"),
                 new("zh-TW", "繁體中文（台灣）"),
                 new("zh-CN", "简体中文（中国）")
@@ -22,11 +22,7 @@ namespace MultiLanguage {
             // if it fails, use the default language.
             var cultureName = System.Globalization.CultureInfo.CurrentCulture.Name;
             // this.SelectedLanguage = LoadLanguageResourceDictionary(cultureName) is null ? "en-US" : cultureName;
-            if (this._languageCollection.Any(item => item.Tag == cultureName)) {
-                this.SelectedLanguage = cultureName;
-            } else {
-                this.SelectedLanguage = ApplicationDefaultLanguage;
-            }
+            this.SelectedLanguage = this._languageCollection.Any(item => item.Tag == cultureName) ? cultureName : ApplicationDefaultLanguage;
             this.UpdateApplicationLanguage();
         }
 
@@ -81,7 +77,7 @@ namespace MultiLanguage {
         #endregion BindingSource
 
         /// <summary>
-        /// The class which used to store language infomation.
+        /// The class which used to store language information.
         /// </summary>
         public class LanguageTypeInfo {
 

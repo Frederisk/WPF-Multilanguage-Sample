@@ -96,7 +96,7 @@ namespace MultiLanguage.Common {
         ///<returns>
         ///<see langword="true" /> if this command can be executed; otherwise, <see langword="false" />.
         ///</returns>
-        public bool CanExecute(T parameter) {
+        public Boolean CanExecute(T parameter) {
             return base.CanExecute(parameter);
         }
 
@@ -139,10 +139,10 @@ namespace MultiLanguage.Common {
         /// </summary>
         /// <param name="executeMethod">The <see cref="Action"/> to invoke when <see cref="ICommand.Execute"/> is called.</param>
         /// <param name="canExecuteMethod">The <see cref="Func{TResult}"/> to invoke when <see cref="ICommand.CanExecute"/> is called</param>
-        public DelegateCommand(Action executeMothod, Func<Boolean> canExecuteMethod)
-            : base((o) => executeMothod(), (o) => canExecuteMethod()) {
-            if (executeMothod is null || canExecuteMethod is null) {
-                throw new ArgumentNullException(nameof(executeMothod));
+        public DelegateCommand(Action executeMethod, Func<Boolean> canExecuteMethod)
+            : base((o) => executeMethod(), (o) => canExecuteMethod()) {
+            if (executeMethod is null || canExecuteMethod is null) {
+                throw new ArgumentNullException(nameof(executeMethod));
             }
         }
 
@@ -169,24 +169,24 @@ namespace MultiLanguage.Common {
         /// Executes the command.
         ///</summary>
         public async Task Execute() {
-            await Execute(null);
+            await this.Execute(null);
         }
 
         /// <summary>
         /// Determines if the command can be executed.
         /// </summary>
         /// <returns>Returns <see langword="true"/> if the command can execute, otherwise returns <see langword="false"/>.</returns>
-        public bool CanExecute() {
-            return CanExecute(null);
+        public Boolean CanExecute() {
+            return this.CanExecute(null);
         }
 
         private DelegateCommand(Func<Task> executeMethod)
             : this(executeMethod, () => true) { }
 
-        private DelegateCommand(Func<Task> executeMethod, Func<bool> canExecuteMethod)
+        private DelegateCommand(Func<Task> executeMethod, Func<Boolean> canExecuteMethod)
             : base((o) => executeMethod(), (o) => canExecuteMethod()) {
             if (executeMethod == null || canExecuteMethod == null)
-                throw new ArgumentNullException("executeMethod");
+                throw new ArgumentNullException(nameof(executeMethod));
         }
     }
 
