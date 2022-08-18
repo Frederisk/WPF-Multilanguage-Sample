@@ -262,8 +262,8 @@ namespace MultiLanguage.Common {
         /// </summary>
         /// <param name="parameter">The parameter to use when determining if this command can execute.</param>
         /// <returns>Returns <see langword="true"/> if the command can execute.  <see langword="False"/> otherwise.</returns>
-        protected bool CanExecute(Object? parameter) {
-            return this._canExecuteMethod is null || this._canExecuteMethod(parameter);
+        protected Boolean CanExecute(Object? parameter) {
+            return this._canExecuteMethod(parameter);
         }
 
         #region ICommand
@@ -272,7 +272,7 @@ namespace MultiLanguage.Common {
             await this.Execute(parameter);
         }
 
-        bool ICommand.CanExecute(Object? parameter) {
+        Boolean ICommand.CanExecute(Object? parameter) {
             return this.CanExecute(parameter);
         }
 

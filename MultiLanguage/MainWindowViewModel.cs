@@ -126,11 +126,8 @@ namespace MultiLanguage {
         /// Update the Application Language to <see cref="MainWindowViewModel.SelectedLanguage"/>.
         /// </summary>
         private void UpdateApplicationLanguage() {
-            ResourceDictionary? langResource = LoadLanguageResourceDictionary(this.SelectedLanguage);
-            if (langResource is null) {
-                // Default lang
-                langResource = LoadLanguageResourceDictionary();
-            }
+            ResourceDictionary? langResource = LoadLanguageResourceDictionary(this.SelectedLanguage) ??
+                                               LoadLanguageResourceDictionary();
             // If you have used other languages, clear it first.
             // Since the dictionary are cleared, the output of debugging will warn "Resource not found",
             // but it is not a problem in most case.
