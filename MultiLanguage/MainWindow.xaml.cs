@@ -10,13 +10,13 @@ namespace MultiLanguage {
         /// <summary>
         /// The ViewModel of <see cref="MainWindow"/>.
         /// </summary>
-        public MainWindowViewModel ViewModel { get; set; }
+        // public MainWindowViewModel ViewModel { get; set; }
 
         public MainWindow() {
             this.InitializeComponent();
             // Initialize ViewModel and set it as the DataContext of MainWindow.
-            this.ViewModel = new MainWindowViewModel();
-            this.DataContext = this.ViewModel;
+            // this.ViewModel = new MainWindowViewModel();
+            // this.DataContext = this.ViewModel;
         }
     }
 }

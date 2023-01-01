@@ -7,6 +7,10 @@
         d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
         d:Height="450" d:Width="800" mc:Ignorable="d"
         Title="MainWindow" SizeToContent="WidthAndHeight" MinHeight="450" MinWidth="800">
+  <Window.DataContext>
+    <local:MainWindowViewModel />
+  </Window.DataContext>
+
   <Grid>
     <Grid.Resources>
       <!--StackPanel Default Style-->
